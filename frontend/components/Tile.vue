@@ -11,21 +11,19 @@
 
 <script setup lang="ts">
 import type { CSSProperties } from "vue";
-const { content, index, totalTiles, occupied } = defineProps({
+const { content, index, occupied, theta, a } = defineProps({
   content: { type: Number, required: true },
   index: { type: Number, required: true },
-  totalTiles: { type: Number, required: true },
   occupied: { type: Boolean, required: true },
+  theta: { type: Number, required: true },
+  a: { type: Number, required: true },
 });
 
 defineEmits(["tile-click"]);
 
 const tileStyle = computed<CSSProperties>(() => {
-  const angle = (360 / totalTiles) * index; // Angle in degrees
-  const radius = 2 * 180; // Radius in pixels (adjust to fit track)
-  // const radius = 180 - index * 5
   return {
-    transform: `translate(-50%, -50%) rotate(${angle}deg) translate(${radius}px) rotate(-${angle}deg)`,
+    transform: `translate(-50%, -50%) rotate(-${theta}rad) translate(${a * theta}px) rotate(${theta}rad) translateY(-20px)`,
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -39,7 +37,7 @@ const tileStyle = computed<CSSProperties>(() => {
   width: 60px;
   height: 60px;
   background-color: #f0f0f0;
-  border: 1px solid #333;
+  border: 2px solid #333;
   border-radius: 50%; /* Circular tiles */
   display: flex;
   justify-content: center;

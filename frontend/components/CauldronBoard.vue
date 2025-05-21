@@ -5,9 +5,10 @@
         v-for="(tile, index) in tiles"
         :key="index"
         :index="index"
-        :total-tiles="tiles.length"
         :content="tile.content"
         :occupied="tile.occupied"
+        :theta="thetaValues[index]"
+        :a="a"
         @tile-click="toggleTile"
       />
     </div>
@@ -21,7 +22,7 @@ interface Tile {
 }
 
 const tiles = ref<Tile[]>(
-  Array.from({ length: 33 }, (_, i) => ({
+  Array.from({ length: 54 }, (_, i) => ({
     content: i + 1,
     occupied: false,
   })),
@@ -29,6 +30,26 @@ const tiles = ref<Tile[]>(
 
 function toggleTile(index: number) {
   tiles.value[index].occupied = !tiles.value[index].occupied;
+}
+
+const numPoints = 54;
+const numTurns = 4;
+const thetaMax = 2 * Math.PI * numTurns; // 4 turns = 8π
+const maxRadius = 360; // Max radius in pixels
+const a = maxRadius / thetaMax; // Spiral constant ≈ 360 / (8π)
+const targetArcLength = 80; // Desired arc length between points;
+
+const thetaValues = [0];
+let currentTheta = 0;
+for (let i = 1; i < numPoints; i++) {
+  const r = a * currentTheta;
+  const deltaTheta = targetArcLength / Math.sqrt(a * a + r * r);
+  currentTheta += deltaTheta;
+  if (currentTheta > thetaMax) {
+    console.warn(`Reached θ_max at point ${i}. Stopping early.`);
+    break;
+  }
+  thetaValues.push(currentTheta);
 }
 </script>
 
