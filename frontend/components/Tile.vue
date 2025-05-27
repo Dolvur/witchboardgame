@@ -5,14 +5,21 @@
     :style="tileStyle"
     @click="$emit('tile-click', index)"
   >
-    {{ content }}
+    <p class="no-margin money">{{ money }}</p>
+    <div class="second-row">
+      <p class="no-margin victorypoints">{{ victorypoints }}</p>
+      <!-- <p v-if="ruby" class="no-margin">5</p> -->
+      <NuxtImg src="/images/ruby.png" width="20" height="20" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { CSSProperties } from "vue";
-const { content, index, occupied, theta, a } = defineProps({
-  content: { type: Number, required: true },
+const { money, victorypoints, ruby, index, occupied, theta, a } = defineProps({
+  money: { type: Number, required: true },
+  victorypoints: { type: Number, required: true },
+  ruby: { type: Boolean, required: true },
   index: { type: Number, required: true },
   occupied: { type: Boolean, required: true },
   theta: { type: Number, required: true },
@@ -33,6 +40,29 @@ const tileStyle = computed<CSSProperties>(() => {
 </script>
 
 <style scoped>
+.second-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.money {
+  color: lightgray;
+  text-shadow: 1px 1px 1px black;
+}
+
+.victorypoints {
+  /* color: blue; */
+  background-color: #ebdebc;
+  border: solid 2px black;
+  color: darkorange;
+  text-shadow: 1px 1px 1px black;
+}
+
 .tile {
   width: 60px;
   height: 60px;
@@ -44,6 +74,8 @@ const tileStyle = computed<CSSProperties>(() => {
   align-items: center;
   font-size: 24px;
   cursor: pointer;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .tile.occupied {

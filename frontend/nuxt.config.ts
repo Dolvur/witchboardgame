@@ -10,4 +10,8 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/ui",
   ],
+  image: {
+    provider: "ipx",
+    dir: "public",
+  },
 });

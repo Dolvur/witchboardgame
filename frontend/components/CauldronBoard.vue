@@ -5,7 +5,9 @@
         v-for="(tile, index) in tiles"
         :key="index"
         :index="index"
-        :content="tile.content"
+        :money="tile.money"
+        :victorypoints="3"
+        :ruby="true"
         :occupied="tile.occupied"
         :theta="thetaValues[index]"
         :a="a"
@@ -17,13 +19,17 @@
 
 <script setup lang="ts">
 interface Tile {
-  content: number;
+  money: number;
+  victorypoints: number;
+  ruby: boolean;
   occupied: boolean;
 }
 
 const tiles = ref<Tile[]>(
   Array.from({ length: 54 }, (_, i) => ({
-    content: i + 1,
+    money: i + 1,
+    victorypoints: i + 1,
+    ruby: true,
     occupied: false,
   })),
 );
